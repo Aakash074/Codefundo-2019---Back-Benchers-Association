@@ -18,3 +18,13 @@ Blockchain technology originates from the underlying architectural design of the
 ![Block added to the blockchain](https....)
 
 To solve the problem, We propose a way to use the blockchain to ensure the features of the e-voting. The blockchain technology is characterized by decentralization, irreversibility, distribution of joint accounting, asymmetric encryption and data-security.
+
+OUR IDEA
+
+In our system we will make use of sql server to provide a platform for users (admin and voters) to sign up and login to our system. We make use of 2 tables, namely:
+
+Insert_voter (name, voter_id, contact)
+Signup (name, username, password, repassword)
+In order to connect to the sql server, we have a php file named connection.php where all the set up for the connection to the sql is made.
+
+To interact with our sql server from the front end we have php programs in the login folder of the front end of the admin and that of the voter to process the logic of our software and then we will deploy our system to the Microsoft azure cloud platform.
