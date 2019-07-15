@@ -1,5 +1,5 @@
-# Codefundo-2019---Back-Benchers-Association
-e-Voting system using Blockchain Technology
+## Codefundo-2019-Back-Benchers-Association
+# e-Voting system using Blockchain Technology
 
 E-voting systems will be beneficial to all people who are involved in elections. For example, administrators can improve operation of tasks for elections, and voters can vote in an election anytime and anywhere. In addition, ideal e-voting systems have transparency, completeness (only voters have the right to vote and their votes are correctly counted), and verifiability (voters can check that their vote is correctly counted), and therefore it is better than existing voting system.
 
@@ -19,7 +19,7 @@ Blockchain technology originates from the underlying architectural design of the
 
 To solve the problem, We propose a way to use the blockchain to ensure the features of the e-voting. The blockchain technology is characterized by decentralization, irreversibility, distribution of joint accounting, asymmetric encryption and data-security.
 
-OUR IDEA
+# OUR IDEA
 
 In our system we will make use of sql server to provide a platform for users (admin and voters) to sign up and login to our system. We make use of 2 tables, namely:
 
