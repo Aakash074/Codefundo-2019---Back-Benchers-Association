@@ -1,8 +1,8 @@
 <?php
-define("HOST",'eu-cdbr-azure-west-b.cloudapp.net');
-define("PASSWORD",'5d36efeb');
-define("USERNAME","bb671e4f5b9eb5");
-define("DB","krptovotesystem");
+define("HOST",'azure wali site');
+define("PASSWORD",'uska pasword');
+define("USERNAME","wo username");
+define("DB","blockchainvoting");
 $connection=@mysql_connect(HOST,USERNAME,PASSWORD,DB);
 if(!$connection)
 {
