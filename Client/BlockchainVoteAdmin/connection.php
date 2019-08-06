@@ -10,7 +10,7 @@ if(!$connection)
 }
 else
 {
-//echo"Connected";
+//echo"Connected"
 	
 }
 mysql_select_db(DB) or die(mysql_error());
