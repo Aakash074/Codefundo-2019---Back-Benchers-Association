@@ -1,17 +1,19 @@
-// =========================================================
-//  Light Bootstrap Dashboard - v2.0.1
-// =========================================================
-//
-//  Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard
-//  Copyright 2019 Creative Tim (https://www.creative-tim.com)
-//  Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE)
-//
-//  Coded by Creative Tim
-//
-// =========================================================
-//
-//  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
+/*!
+    
+ =========================================================
+ * Light Bootstrap Dashboard - v1.3.1.0
+ =========================================================
+ 
+ * Product Page: http://www.creative-tim.com/product/light-bootstrap-dashboard
+ * Copyright 2017 Creative Tim (http://www.creative-tim.com)
+ * Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE.md)
+ 
+ =========================================================
+ 
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ 
+ */
+ 
 var searchVisible = 0;
 var transparent = true;
 
@@ -19,169 +21,146 @@ var transparentDemo = true;
 var fixedTop = false;
 
 var navbar_initialized = false;
-var mobile_menu_visible = 0,
-    mobile_menu_initialized = false,
-    toggle_initialized = false,
-    bootstrap_nav_initialized = false,
-    $sidebar,
-    isWindows;
 
-$(document).ready(function() {
+$(document).ready(function(){
     window_width = $(window).width();
 
     // check if there is an image set for the sidebar's background
     lbd.checkSidebarImage();
 
     // Init navigation toggle for small screens
-    if (window_width <= 991) {
+    if(window_width <= 991){
         lbd.initRightMenu();
     }
 
     //  Activate the tooltips
     $('[rel="tooltip"]').tooltip();
 
+    //      Activate the switches with icons
+    if($('.switch').length != 0){
+        $('.switch')['bootstrapSwitch']();
+    }
     //      Activate regular switches
-    if ($("[data-toggle='switch']").length != 0) {
-        $("[data-toggle='switch']").bootstrapSwitch();
+    if($("[data-toggle='switch']").length != 0){
+         $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
     }
 
-    $('.form-control').on("focus", function() {
+    $('.form-control').on("focus", function(){
         $(this).parent('.input-group').addClass("input-group-focus");
-    }).on("blur", function() {
+    }).on("blur", function(){
         $(this).parent(".input-group").removeClass("input-group-focus");
     });
 
     // Fixes sub-nav not working as expected on IOS
-    $('body').on('touchstart.dropdown', '.dropdown-menu', function(e) {
-        e.stopPropagation();
-    });
+$('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
 });
 
 // activate collapse right menu when the windows is resized
-$(window).resize(function() {
-    if ($(window).width() <= 991) {
+$(window).resize(function(){
+    if($(window).width() <= 991){
         lbd.initRightMenu();
     }
 });
 
 lbd = {
-    misc: {
+    misc:{
         navbar_menu_visible: 0
     },
-    checkSidebarImage: function() {
+
+    checkSidebarImage: function(){
         $sidebar = $('.sidebar');
         image_src = $sidebar.data('image');
 
-        if (image_src !== undefined) {
+        if(image_src !== undefined){
             sidebar_container = '<div class="sidebar-background" style="background-image: url(' + image_src + ') "/>'
             $sidebar.append(sidebar_container);
-        } else if (mobile_menu_initialized == true) {
-            // reset all the additions that we made for the sidebar wrapper only if the screen is bigger than 991px
-            $sidebar_wrapper.find('.navbar-form').remove();
-            $sidebar_wrapper.find('.nav-mobile-menu').remove();
-
-            mobile_menu_initialized = false;
         }
     },
-
-    initRightMenu: function() {
-        $sidebar_wrapper = $('.sidebar-wrapper');
-
-        if (!mobile_menu_initialized) {
-
+    initRightMenu: function(){
+         if(!navbar_initialized){
             $navbar = $('nav').find('.navbar-collapse').first().clone(true);
 
-            nav_content = '';
-            mobile_menu_content = '';
+            $sidebar = $('.sidebar');
+            sidebar_color = $sidebar.data('color');
 
-            //add the content from the regular header to the mobile menu
-            $navbar.children('ul').each(function() {
+            $logo = $sidebar.find('.logo').first();
+            logo_content = $logo[0].outerHTML;
 
+            ul_content = '';
+
+            $navbar.attr('data-color',sidebar_color);
+
+            //add the content from the regular header to the right menu
+            $navbar.children('ul').each(function(){
                 content_buff = $(this).html();
-                nav_content = nav_content + content_buff;
+                ul_content = ul_content + content_buff;
             });
 
-            nav_content = '<ul class="nav nav-mobile-menu">' + nav_content + '</ul>';
+            // add the content from the sidebar to the right menu
+            content_buff = $sidebar.find('.nav').html();
+            ul_content = ul_content + content_buff;
 
-            $navbar_form = $('nav').find('.navbar-form').clone(true);
 
-            $sidebar_nav = $sidebar_wrapper.find(' > .nav');
+            ul_content = '<div class="sidebar-wrapper">' +
+                            '<ul class="nav navbar-nav">' +
+                                ul_content +
+                            '</ul>' +
+                          '</div>';
 
-            // insert the navbar form before the sidebar list
-            $nav_content = $(nav_content);
-            $nav_content.insertBefore($sidebar_nav);
-            $navbar_form.insertBefore($nav_content);
+            navbar_content = logo_content + ul_content;
 
-            $(".sidebar-wrapper .dropdown .dropdown-menu > li > a").click(function(event) {
-                event.stopPropagation();
+            $navbar.html(navbar_content);
 
-            });
+            $('body').append($navbar);
 
-            mobile_menu_initialized = true;
-        } else {
-            console.log('window with:' + $(window).width());
-            if ($(window).width() > 991) {
-                // reset all the additions that we made for the sidebar wrapper only if the screen is bigger than 991px
-                $sidebar_wrapper.find('.navbar-form').remove();
-                $sidebar_wrapper.find('.nav-mobile-menu').remove();
-
-                mobile_menu_initialized = false;
+            background_image = $sidebar.data('image');
+            if(background_image != undefined){
+                $navbar.css('background',"url('" + background_image + "')")
+                       .removeAttr('data-nav-image')
+                       .addClass('has-image');
             }
-        }
 
-        if (!toggle_initialized) {
-            $toggle = $('.navbar-toggler');
 
-            $toggle.click(function() {
+             $toggle = $('.navbar-toggle');
 
-                if (mobile_menu_visible == 1) {
+             $navbar.find('a').removeClass('btn btn-round btn-default');
+             $navbar.find('button').removeClass('btn-round btn-fill btn-info btn-primary btn-success btn-danger btn-warning btn-neutral');
+             $navbar.find('button').addClass('btn-simple btn-block');
+
+             $toggle.click(function (){
+                if(lbd.misc.navbar_menu_visible == 1) {
                     $('html').removeClass('nav-open');
-
-                    $('.close-layer').remove();
-                    setTimeout(function() {
+                    lbd.misc.navbar_menu_visible = 0;
+                    $('#bodyClick').remove();
+                     setTimeout(function(){
                         $toggle.removeClass('toggled');
-                    }, 400);
+                     }, 400);
 
-                    mobile_menu_visible = 0;
                 } else {
-                    setTimeout(function() {
+                    setTimeout(function(){
                         $toggle.addClass('toggled');
                     }, 430);
 
-
-                    main_panel_height = $('.main-panel')[0].scrollHeight;
-                    $layer = $('<div class="close-layer"></div>');
-                    $layer.css('height', main_panel_height + 'px');
-                    $layer.appendTo(".main-panel");
-
-                    setTimeout(function() {
-                        $layer.addClass('visible');
-                    }, 100);
-
-                    $layer.click(function() {
+                    div = '<div id="bodyClick"></div>';
+                    $(div).appendTo("body").click(function() {
                         $('html').removeClass('nav-open');
-                        mobile_menu_visible = 0;
-
-                        $layer.removeClass('visible');
-
-                        setTimeout(function() {
-                            $layer.remove();
+                        lbd.misc.navbar_menu_visible = 0;
+                        $('#bodyClick').remove();
+                         setTimeout(function(){
                             $toggle.removeClass('toggled');
-
-                        }, 400);
+                         }, 400);
                     });
 
                     $('html').addClass('nav-open');
-                    mobile_menu_visible = 1;
+                    lbd.misc.navbar_menu_visible = 1;
 
                 }
             });
-
-            toggle_initialized = true;
+            navbar_initialized = true;
         }
+
     }
 }
-
 
 
 // Returns a function, that, as long as it continues to be invoked, will not
@@ -190,15 +169,14 @@ lbd = {
 // leading edge, instead of the trailing.
 
 function debounce(func, wait, immediate) {
-    var timeout;
-    return function() {
-        var context = this,
-            args = arguments;
-        clearTimeout(timeout);
-        timeout = setTimeout(function() {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
-        }, wait);
-        if (immediate && !timeout) func.apply(context, args);
-    };
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		clearTimeout(timeout);
+		timeout = setTimeout(function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		}, wait);
+		if (immediate && !timeout) func.apply(context, args);
+	};
 };
