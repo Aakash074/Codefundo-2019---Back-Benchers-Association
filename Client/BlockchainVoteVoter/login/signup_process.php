@@ -14,8 +14,8 @@ include('../connection.php');
 
 	//echo"connected";
 	$sql="select *from insert_voter where voter_id='$username'";
-	$query=mysql_query($sql,$connection);
-	$row=mysql_fetch_array($query);
+	$query=mysqli_query($sql,$connection);
+	$row=mysqli_fetch_array($query);
 	if($name=="" || $username=="" || $password=="" || $password1=="")
 	{
 		session_start();
@@ -27,7 +27,7 @@ include('../connection.php');
 	{
 		$_SESSSION['sess_user1']="Thank you for signing up!!!";
 		$query="INSERT INTO signup(name,username,password,repassword) values ('$name','$username','$password','$password1')";
-	 $execute=mysql_query($query,$connection);
+	 $execute=mysqli_query($query,$connection);
 	
 
 
