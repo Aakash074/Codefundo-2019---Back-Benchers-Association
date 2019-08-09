@@ -11,8 +11,8 @@ include('../connection.php');
 
 	echo"connected";
 	$sql="select *from signup where username='$username' and password='$password'";
-	$query=mysql_query($sql,$connection);
-	$row=mysql_fetch_array($query);
+	$query=mysqli_query($sql,$connection);
+	$row=mysqli_fetch_array($query);
 	if($username=="" || $password=="")
      {
      session_start();
